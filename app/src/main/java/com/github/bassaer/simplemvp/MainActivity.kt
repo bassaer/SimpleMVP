@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
                 CounterFragment.newInstance().also {
                     replaceFragmentInActivity(it, R.id.contentFrame)
                 }
-
+        // Create Presenter and attach View(Fragment)
         CounterPresenter(counterFragment)
     }
 }
