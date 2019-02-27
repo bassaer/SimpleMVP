@@ -8,14 +8,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.run {
+        setupActionBar(R.id.toolbar) {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add( R.id.contentFrame, CounterFragment())
-        transaction.commit()
+        val counterFragment = supportFragmentManager
+            .findFragmentById(R.id.contentFrame) as CounterFragment? ?:
+                CounterFragment.newInstance().also {
+                    replaceFragmentInActivity(it, R.id.contentFrame)
+                }
+
+        CounterPresenter(counterFragment)
     }
 }
