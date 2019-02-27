@@ -9,7 +9,7 @@ class CounterPresenter(private val counterView: CounterContract.View): CounterCo
     }
 
     override fun countUp() {
-        counterView.setCount(++counter)
+        counterView.setText((++counter).toString())
     }
 
 }

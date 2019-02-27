@@ -26,8 +26,8 @@ class CounterFragment: Fragment(), CounterContract.View {
         return root
     }
 
-    override fun setCount(count: Int) {
-        textView.text = count.toString()
+    override fun setText(text: String) {
+        textView.text = text
     }
 
     companion object {
