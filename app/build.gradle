@@ -4,14 +4,16 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.compileSdkVer
     defaultConfig {
         applicationId "com.github.bassaer.simplemvp"
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVer
+        targetSdkVersion rootProject.ext.targetSdkVer
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,16 +22,33 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
-    implementation 'androidx.core:core-ktx:1.1.0-alpha04'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.1.0-alpha03'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVer"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVer"
+    implementation "androidx.appcompat:appcompat:$appcompatVer"
+    implementation "androidx.core:core-ktx:$coreKtxVer"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLahyoutVer"
+    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha05"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-alpha05"
+    implementation "com.google.android.material:material:$materialVer"
+    implementation "androidx.room:room-runtime:$roomVer"
+    implementation "androidx.room:room-ktx:$roomVer"
+    kapt "androidx.room:room-compiler:$roomVer"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycleVer"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVer"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVer"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVer"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVer"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVer"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVer"
+    testImplementation "junit:junit:$junitVer"
+    androidTestImplementation "androidx.test:runner:$testRunnerVer"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVer"
 }
+
