@@ -16,15 +16,20 @@ class CounterFragment: Fragment(), CounterContract.View {
     override lateinit var presenter: CounterContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.counter_flag, container, false)
-        with(root) {
+        val root = inflater.inflate(R.layout.counter_flag, container, false).apply {
             textView = findViewById(R.id.text)
         }
 
         activity?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener {
             presenter.countUp()
         }
+
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.loadUser()
     }
 
     override fun setText(text: String) {
@@ -32,6 +37,7 @@ class CounterFragment: Fragment(), CounterContract.View {
     }
 
     companion object {
+        const val ARGUMENT_USER_ID = "ARGUMENT_USER_ID"
         fun newInstance() = CounterFragment()
     }
 }

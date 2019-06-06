@@ -3,8 +3,8 @@ package com.github.bassaer.simplemvp.data.source.local
 import com.github.bassaer.simplemvp.data.User
 import com.github.bassaer.simplemvp.data.source.UserDataSource
 
-class UserRepository(private val userLocalDataSource: UserLocalDataSource):
-    UserDataSource {
+class UserRepository private constructor
+    (private val userLocalDataSource: UserLocalDataSource): UserDataSource {
 
     override fun getUsers(callback: UserDataSource.LoadUserCallback) {
         userLocalDataSource.getUsers(object : UserDataSource.LoadUserCallback {

@@ -7,7 +7,7 @@ import com.github.bassaer.simplemvp.data.source.UserDataSource.LoadUserCallback
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class UserLocalDataSource(private val userDao: UserDao): UserDataSource {
+class UserLocalDataSource private constructor(private val userDao: UserDao): UserDataSource {
 
     override fun getUsers(callback: LoadUserCallback) {
         GlobalScope.launch {
