@@ -1,4 +1,6 @@
-package com.github.bassaer.simplemvp
+package com.github.bassaer.simplemvp.counter
+
+import com.github.bassaer.simplemvp.counter.CounterContract
 
 class CounterPresenter(private val counterView: CounterContract.View): CounterContract.Presenter {
 

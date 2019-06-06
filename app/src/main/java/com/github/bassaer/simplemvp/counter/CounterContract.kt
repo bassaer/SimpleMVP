@@ -1,4 +1,4 @@
-package com.github.bassaer.simplemvp
+package com.github.bassaer.simplemvp.counter
 
 interface CounterContract {
     interface View {
