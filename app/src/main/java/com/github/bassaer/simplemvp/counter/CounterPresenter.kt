@@ -10,7 +10,7 @@ class CounterPresenter(
     private val repository: UserRepository,
     private val counterView: CounterContract.View): CounterContract.Presenter {
 
-    private var counter = 0
+    private var loadedUser: User? = null
 
     init {
         counterView.presenter = this
@@ -20,8 +20,10 @@ class CounterPresenter(
         repository.getUser(userId, object : UserDataSource.GerUserCallback {
 
             override fun onUserLoaded(user: User) {
-                counter = user.count
-                counterView.setText(counter.toString())
+                loadedUser = user
+                loadedUser?.let {
+                    counterView.setText(it.count.toString())
+                }
             }
 
             override fun onDataNotAvailable() {
@@ -33,7 +35,15 @@ class CounterPresenter(
     }
 
     override fun countUp() {
-        counterView.setText((++counter).toString())
+        loadedUser?.let {
+            counterView.setText((++it.count).toString())
+        }
+    }
+
+    override fun saveUser() {
+        loadedUser?.let {
+            repository.saveUser(user = it)
+        }
     }
 
 }

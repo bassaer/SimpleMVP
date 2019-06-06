@@ -9,5 +9,6 @@ interface CounterContract {
     interface Presenter {
         fun loadUser()
         fun countUp()
+        fun saveUser()
     }
 }
