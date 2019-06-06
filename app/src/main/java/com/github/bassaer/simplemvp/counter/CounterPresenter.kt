@@ -1,6 +1,5 @@
 package com.github.bassaer.simplemvp.counter
 
-import android.util.Log
 import com.github.bassaer.simplemvp.data.User
 import com.github.bassaer.simplemvp.data.source.UserDataSource
 import com.github.bassaer.simplemvp.data.source.local.UserRepository
@@ -27,8 +26,7 @@ class CounterPresenter(
             }
 
             override fun onDataNotAvailable() {
-                Log.d(javaClass.simpleName, "failed to load user.")
-                counterView.setText("error")
+                counterView.setText("Error")
             }
 
         })
