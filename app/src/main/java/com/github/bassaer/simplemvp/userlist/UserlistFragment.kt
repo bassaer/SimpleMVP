@@ -44,9 +44,7 @@ class UserlistFragment: Fragment(), UserlistContract.View {
                 addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
                 adapter = listAdapter
             }
-            emptyView = findViewById<TextView>(R.id.empty_view).apply {
-                visibility = View.GONE
-            }
+            emptyView = findViewById(R.id.empty_view)
             requireActivity().findViewById<FloatingActionButton>(R.id.new_user_fab).apply {
                 setOnClickListener {
                     presenter.addNewUser()

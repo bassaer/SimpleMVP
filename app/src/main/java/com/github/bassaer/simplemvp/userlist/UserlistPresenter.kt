@@ -15,12 +15,11 @@ class UserlistPresenter(private val repository: UserRepository, private val user
     override fun loadUserlist() {
         repository.getUsers(object : UserDataSource.LoadUserCallback {
             override fun onUserLoaded(users: List<User>) {
-
                 if (users.isEmpty()) {
                     userlistView.showEmptyView()
+                    return
                 }
-
-
+                userlistView.showUserlist(users)
             }
 
             override fun onDataNotAvailable() {
