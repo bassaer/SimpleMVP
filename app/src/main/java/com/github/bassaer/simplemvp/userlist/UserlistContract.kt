@@ -4,6 +4,7 @@ interface UserlistContract {
     interface View {
         var presenter: Presenter
         fun showCounterUI(userId: String)
+        fun showEmptyView()
         fun openGitHubRepoList()
     }
 

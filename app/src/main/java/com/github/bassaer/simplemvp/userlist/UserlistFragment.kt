@@ -21,13 +21,14 @@ class UserlistFragment: Fragment(), UserlistContract.View {
 
     override lateinit var presenter: UserlistContract.Presenter
 
-    private var itemListener: UserItemListener = object : UserItemListener {
+    private lateinit var userlistView: RecyclerView
+    private lateinit var emptyView: TextView
+
+    private val listAdapter = UserlistAdapter(ArrayList(0), object : UserItemListener {
         override fun onUserClick(clickedUser: User) {
             presenter.openCounter()
         }
-    }
-
-    private val listAdapter = UserlistAdapter(arrayListOf(), itemListener)
+    })
 
     override fun onResume() {
         super.onResume()
@@ -37,13 +38,16 @@ class UserlistFragment: Fragment(), UserlistContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.userlist_frag, container, false).apply {
-            findViewById<RecyclerView>(R.id.userlist_view).apply {
+            userlistView = findViewById<RecyclerView>(R.id.userlist_view).apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
                 adapter = listAdapter
             }
-            findViewById<FloatingActionButton>(R.id.new_user_fab).apply {
+            emptyView = findViewById<TextView>(R.id.empty_view).apply {
+                visibility = View.GONE
+            }
+            requireActivity().findViewById<FloatingActionButton>(R.id.new_user_fab).apply {
                 setOnClickListener {
                     presenter.addNewUser()
                 }
@@ -56,6 +60,10 @@ class UserlistFragment: Fragment(), UserlistContract.View {
             putExtra(CounterFragment.ARGUMENT_USER_ID, userId)
         }
         startActivity(intent)
+    }
+
+    override fun showEmptyView() {
+        emptyView.visibility = if (listAdapter.itemCount == 0) View.GONE else View.VISIBLE
     }
 
     override fun openGitHubRepoList() {
