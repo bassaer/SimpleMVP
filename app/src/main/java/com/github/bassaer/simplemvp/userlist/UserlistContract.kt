@@ -13,7 +13,7 @@ interface UserlistContract {
 
     interface Presenter {
         fun loadUserlist()
-        fun addNewUser()
+        fun addNewUser(user: User)
         fun openCounter(user: User)
         fun deleteAllUser()
     }

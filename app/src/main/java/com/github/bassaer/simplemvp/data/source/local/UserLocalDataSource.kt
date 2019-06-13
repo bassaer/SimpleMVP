@@ -4,13 +4,14 @@ import com.github.bassaer.simplemvp.data.User
 import com.github.bassaer.simplemvp.data.source.UserDataSource
 import com.github.bassaer.simplemvp.data.source.UserDataSource.GerUserCallback
 import com.github.bassaer.simplemvp.data.source.UserDataSource.LoadUserCallback
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class UserLocalDataSource private constructor(private val userDao: UserDao): UserDataSource {
 
     override fun getUsers(callback: LoadUserCallback) {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main) {
             val users = userDao.findAll()
             if (users.isEmpty()) {
                 callback.onDataNotAvailable()
@@ -18,7 +19,6 @@ class UserLocalDataSource private constructor(private val userDao: UserDao): Use
                 callback.onUserLoaded(users)
             }
         }
-
     }
 
     override fun getUser(id: String, callback: GerUserCallback) {

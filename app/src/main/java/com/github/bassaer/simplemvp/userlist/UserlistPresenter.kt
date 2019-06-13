@@ -29,8 +29,8 @@ class UserlistPresenter(private val repository: UserRepository, private val user
 
     }
 
-    override fun addNewUser() {
-
+    override fun addNewUser(user: User) {
+        repository.createUser(user)
     }
 
     override fun openCounter(user: User) {

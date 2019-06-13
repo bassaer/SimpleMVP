@@ -17,7 +17,7 @@ import com.github.bassaer.simplemvp.counter.CounterFragment
 import com.github.bassaer.simplemvp.data.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class UserlistFragment: Fragment(), UserlistContract.View {
+class UserlistFragment: Fragment(), UserlistContract.View, NewUserDialogFragment.NoticeDialogListener{
 
     override lateinit var presenter: UserlistContract.Presenter
 
@@ -47,10 +47,18 @@ class UserlistFragment: Fragment(), UserlistContract.View {
             emptyView = findViewById(R.id.empty_view)
             requireActivity().findViewById<FloatingActionButton>(R.id.new_user_fab).apply {
                 setOnClickListener {
-                    presenter.addNewUser()
+                    activity?.let {
+                        val dialog = NewUserDialogFragment.newInstance()
+                        dialog.setTargetFragment(this@UserlistFragment, 0)
+                        dialog.show(it.supportFragmentManager, TAG)
+                    }
                 }
             }
         }
+    }
+
+    override fun onClickPositiveButton(input: String) {
+        presenter.addNewUser(User(name = input, count = 0))
     }
 
     override fun showCounterUI(userId: String) {
@@ -113,6 +121,7 @@ class UserlistFragment: Fragment(), UserlistContract.View {
     }
 
     companion object {
+        const val TAG = "USERLIST_FRAGMENT"
         fun newInstance() = UserlistFragment()
     }
 }
