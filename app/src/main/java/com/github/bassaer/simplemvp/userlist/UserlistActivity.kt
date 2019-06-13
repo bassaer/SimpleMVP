@@ -26,6 +26,5 @@ class UserlistActivity: AppCompatActivity() {
         val userDao = UserDatabase.getInstance(applicationContext).userDao()
         val repository = UserRepository.getInstance(UserLocalDataSource.getInstance(userDao))
         presenter = UserlistPresenter(repository, fragment)
-    }\
-
+    }
 }

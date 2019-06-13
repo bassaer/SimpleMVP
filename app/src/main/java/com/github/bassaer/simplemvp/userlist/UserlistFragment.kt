@@ -26,7 +26,7 @@ class UserlistFragment: Fragment(), UserlistContract.View {
 
     private val listAdapter = UserlistAdapter(ArrayList(0), object : UserItemListener {
         override fun onUserClick(clickedUser: User) {
-            presenter.openCounter()
+            presenter.openCounter(clickedUser)
         }
     })
 
@@ -63,7 +63,15 @@ class UserlistFragment: Fragment(), UserlistContract.View {
     }
 
     override fun showEmptyView() {
-        emptyView.visibility = if (listAdapter.itemCount == 0) View.GONE else View.VISIBLE
+        userlistView.visibility = View.GONE
+        emptyView.visibility = View.VISIBLE
+    }
+
+    override fun showUserlist(users: List<User>) {
+        listAdapter.userlist = users
+        listAdapter.notifyDataSetChanged()
+        userlistView.visibility = View.VISIBLE
+        emptyView.visibility = View.GONE
     }
 
     override fun openGitHubRepoList() {
@@ -88,7 +96,7 @@ class UserlistFragment: Fragment(), UserlistContract.View {
             with(holder) {
                 val user = userlist[position]
                 nameView.text = user.name
-                countView.text = user.toString()
+                countView.text = user.count.toString()
                 rootView.setOnClickListener {
                     listener.onUserClick(user)
                 }

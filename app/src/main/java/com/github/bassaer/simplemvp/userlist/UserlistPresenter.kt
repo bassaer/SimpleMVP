@@ -1,5 +1,7 @@
 package com.github.bassaer.simplemvp.userlist
 
+import com.github.bassaer.simplemvp.data.User
+import com.github.bassaer.simplemvp.data.source.UserDataSource
 import com.github.bassaer.simplemvp.data.source.local.UserRepository
 
 class UserlistPresenter(private val repository: UserRepository, private val userlistView: UserlistContract.View)
@@ -11,6 +13,20 @@ class UserlistPresenter(private val repository: UserRepository, private val user
     }
 
     override fun loadUserlist() {
+        repository.getUsers(object : UserDataSource.LoadUserCallback {
+            override fun onUserLoaded(users: List<User>) {
+
+                if (users.isEmpty()) {
+                    userlistView.showEmptyView()
+                }
+
+
+            }
+
+            override fun onDataNotAvailable() {
+            }
+
+        })
 
     }
 
@@ -18,8 +34,8 @@ class UserlistPresenter(private val repository: UserRepository, private val user
 
     }
 
-    override fun openCounter() {
-
+    override fun openCounter(user: User) {
+        userlistView.showCounterUI(user.id)
     }
 
     override fun deleteAllUser() {
