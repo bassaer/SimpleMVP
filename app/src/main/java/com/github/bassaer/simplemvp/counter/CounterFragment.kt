@@ -20,7 +20,7 @@ class CounterFragment: Fragment(), CounterContract.View {
             textView = findViewById(R.id.text)
         }
 
-        activity?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener {
+        activity?.findViewById<FloatingActionButton>(R.id.count_up_fab)?.setOnClickListener {
             presenter.countUp()
         }
 
