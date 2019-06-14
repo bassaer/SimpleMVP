@@ -13,16 +13,13 @@ class CounterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.counter_act)
-        supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-        }
+        setSupportActionBar(findViewById(R.id.toolbar))
 
+        val userId = intent.getStringExtra(CounterFragment.ARGUMENT_USER_ID)
         val counterFragment = supportFragmentManager
-            .findFragmentById(R.id.contentFrame) as CounterFragment? ?: CounterFragment.newInstance().also {
+            .findFragmentById(R.id.contentFrame) as CounterFragment? ?: CounterFragment.newInstance(userId).also {
             replaceFragmentInActivity(it, R.id.contentFrame)
         }
-        // Create Presenter and attach View(Fragment)
-        val userId = intent.getStringExtra(CounterFragment.ARGUMENT_USER_ID) ?: ""
 
         // TODO : Inject
         val userDao = UserDatabase.getInstance(this).userDao()

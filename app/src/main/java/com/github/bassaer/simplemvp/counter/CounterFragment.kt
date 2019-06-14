@@ -32,12 +32,21 @@ class CounterFragment: Fragment(), CounterContract.View {
         presenter.loadUser()
     }
 
+    override fun onPause() {
+        super.onPause()
+        presenter.saveUser()
+    }
+
     override fun setText(text: String) {
         textView.text = text
     }
 
     companion object {
         const val ARGUMENT_USER_ID = "ARGUMENT_USER_ID"
-        fun newInstance() = CounterFragment()
+        fun newInstance(userId: String) = CounterFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARGUMENT_USER_ID, userId)
+            }
+        }
     }
 }

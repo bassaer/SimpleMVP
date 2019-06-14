@@ -59,7 +59,7 @@ class UserlistFragment: Fragment(), UserlistContract.View, NewUserDialogFragment
 
     override fun onClickPositiveButton(input: String) {
         presenter.addNewUser(User(name = input, count = 0))
-    }
+        presenter.loadUserlist()}
 
     override fun showCounterUI(userId: String) {
         val intent = Intent(context, CounterActivity::class.java).apply {
@@ -75,7 +75,6 @@ class UserlistFragment: Fragment(), UserlistContract.View, NewUserDialogFragment
 
     override fun showUserlist(users: List<User>) {
         listAdapter.userlist = users
-        listAdapter.notifyDataSetChanged()
         userlistView.visibility = View.VISIBLE
         emptyView.visibility = View.GONE
     }
