@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SimpleBase</string>
+    <string name="app_name">SimpleMVP</string>
     <string name="action_reset">Reset</string>
     <string name="default_count">0</string>
     <string name="default_none">None</string>

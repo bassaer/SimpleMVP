@@ -17,17 +17,18 @@ import com.github.bassaer.simplemvp.counter.CounterFragment
 import com.github.bassaer.simplemvp.data.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class UserlistFragment: Fragment(), UserlistContract.View {
+class UserlistFragment: Fragment(), UserlistContract.View, NewUserDialogFragment.NoticeDialogListener{
 
     override lateinit var presenter: UserlistContract.Presenter
 
-    private var itemListener: UserItemListener = object : UserItemListener {
-        override fun onUserClick(clickedUser: User) {
-            presenter.openCounter()
-        }
-    }
+    private lateinit var userlistView: RecyclerView
+    private lateinit var emptyView: TextView
 
-    private val listAdapter = UserlistAdapter(arrayListOf(), itemListener)
+    private val listAdapter = UserlistAdapter(ArrayList(0), object : UserItemListener {
+        override fun onUserClick(clickedUser: User) {
+            presenter.openCounter(clickedUser)
+        }
+    })
 
     override fun onResume() {
         super.onResume()
@@ -37,18 +38,27 @@ class UserlistFragment: Fragment(), UserlistContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.userlist_frag, container, false).apply {
-            findViewById<RecyclerView>(R.id.userlist_view).apply {
+            userlistView = findViewById<RecyclerView>(R.id.userlist_view).apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
                 adapter = listAdapter
             }
-            findViewById<FloatingActionButton>(R.id.new_user_fab).apply {
+            emptyView = findViewById(R.id.empty_view)
+            requireActivity().findViewById<FloatingActionButton>(R.id.new_user_fab).apply {
                 setOnClickListener {
-                    presenter.addNewUser()
+                    activity?.let {
+                        val dialog = NewUserDialogFragment.newInstance()
+                        dialog.setTargetFragment(this@UserlistFragment, 0)
+                        dialog.show(it.supportFragmentManager, TAG)
+                    }
                 }
             }
         }
+    }
+
+    override fun onClickPositiveButton(input: String) {
+        presenter.addNewUser(User(name = input, count = 0))
     }
 
     override fun showCounterUI(userId: String) {
@@ -56,6 +66,18 @@ class UserlistFragment: Fragment(), UserlistContract.View {
             putExtra(CounterFragment.ARGUMENT_USER_ID, userId)
         }
         startActivity(intent)
+    }
+
+    override fun showEmptyView() {
+        userlistView.visibility = View.GONE
+        emptyView.visibility = View.VISIBLE
+    }
+
+    override fun showUserlist(users: List<User>) {
+        listAdapter.userlist = users
+        listAdapter.notifyDataSetChanged()
+        userlistView.visibility = View.VISIBLE
+        emptyView.visibility = View.GONE
     }
 
     override fun openGitHubRepoList() {
@@ -80,7 +102,7 @@ class UserlistFragment: Fragment(), UserlistContract.View {
             with(holder) {
                 val user = userlist[position]
                 nameView.text = user.name
-                countView.text = user.toString()
+                countView.text = user.count.toString()
                 rootView.setOnClickListener {
                     listener.onUserClick(user)
                 }
@@ -99,6 +121,7 @@ class UserlistFragment: Fragment(), UserlistContract.View {
     }
 
     companion object {
+        const val TAG = "USERLIST_FRAGMENT"
         fun newInstance() = UserlistFragment()
     }
 }
