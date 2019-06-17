@@ -10,5 +10,6 @@ interface CounterContract {
         fun loadUser()
         fun countUp()
         fun saveUser()
+        fun resetCount()
     }
 }

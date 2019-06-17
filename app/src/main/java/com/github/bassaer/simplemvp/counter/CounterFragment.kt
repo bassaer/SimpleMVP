@@ -1,9 +1,7 @@
 package com.github.bassaer.simplemvp.counter
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.bassaer.simplemvp.R
@@ -16,14 +14,13 @@ class CounterFragment: Fragment(), CounterContract.View {
     override lateinit var presenter: CounterContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         val root = inflater.inflate(R.layout.counter_flag, container, false).apply {
             textView = findViewById(R.id.text)
         }
-
         activity?.findViewById<FloatingActionButton>(R.id.count_up_fab)?.setOnClickListener {
             presenter.countUp()
         }
-
         return root
     }
 
@@ -35,6 +32,21 @@ class CounterFragment: Fragment(), CounterContract.View {
     override fun onPause() {
         super.onPause()
         presenter.saveUser()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_counter, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_reset -> {
+                presenter.resetCount()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun setText(text: String) {

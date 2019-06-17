@@ -44,4 +44,8 @@ class CounterPresenter(
         }
     }
 
+    override fun resetCount() {
+        loadedUser?.count = 0
+        counterView.setText("0")
+    }
 }
