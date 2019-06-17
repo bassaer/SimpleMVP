@@ -38,7 +38,12 @@ class UserlistPresenter(private val repository: UserRepository, private val user
     }
 
     override fun deleteAllUser() {
+        repository.deleteAllUser()
+        userlistView.showEmptyView()
+    }
 
+    override fun openGitHubRepoList() {
+        userlistView.openGitHubRepoList()
     }
 
 }

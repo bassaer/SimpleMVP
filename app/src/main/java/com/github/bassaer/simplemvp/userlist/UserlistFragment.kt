@@ -2,11 +2,10 @@ package com.github.bassaer.simplemvp.userlist
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,9 +56,29 @@ class UserlistFragment: Fragment(), UserlistContract.View, NewUserDialogFragment
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_reset -> {
+                presenter.deleteAllUser()
+                return true
+            }
+            R.id.action_github -> {
+                presenter.openGitHubRepoList()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onClickPositiveButton(input: String) {
         presenter.addNewUser(User(name = input, count = 0))
-        presenter.loadUserlist()}
+        presenter.loadUserlist()
+    }
 
     override fun showCounterUI(userId: String) {
         val intent = Intent(context, CounterActivity::class.java).apply {
@@ -80,6 +99,7 @@ class UserlistFragment: Fragment(), UserlistContract.View, NewUserDialogFragment
     }
 
     override fun openGitHubRepoList() {
+        Toast.makeText(requireContext(), "open GitHub", Toast.LENGTH_SHORT).show()
     }
 
     private class UserlistAdapter(users: List<User>, private val listener: UserItemListener) :
