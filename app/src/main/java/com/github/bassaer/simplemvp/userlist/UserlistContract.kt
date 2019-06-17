@@ -16,5 +16,6 @@ interface UserlistContract {
         fun addNewUser(user: User)
         fun openCounter(user: User)
         fun deleteAllUser()
+        fun openGitHubRepoList()
     }
 }
