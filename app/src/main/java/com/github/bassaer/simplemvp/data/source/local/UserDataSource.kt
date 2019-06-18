@@ -1,4 +1,4 @@
-package com.github.bassaer.simplemvp.data.source
+package com.github.bassaer.simplemvp.data.source.local
 
 import com.github.bassaer.simplemvp.data.User
 

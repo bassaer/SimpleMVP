@@ -1,7 +1,7 @@
 package com.github.bassaer.simplemvp.counter
 
 import com.github.bassaer.simplemvp.data.User
-import com.github.bassaer.simplemvp.data.source.UserDataSource
+import com.github.bassaer.simplemvp.data.source.local.UserDataSource
 import com.github.bassaer.simplemvp.data.source.local.UserRepository
 
 class CounterPresenter(

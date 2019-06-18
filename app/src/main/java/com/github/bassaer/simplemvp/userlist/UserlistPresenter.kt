@@ -1,7 +1,7 @@
 package com.github.bassaer.simplemvp.userlist
 
 import com.github.bassaer.simplemvp.data.User
-import com.github.bassaer.simplemvp.data.source.UserDataSource
+import com.github.bassaer.simplemvp.data.source.local.UserDataSource
 import com.github.bassaer.simplemvp.data.source.local.UserRepository
 
 class UserlistPresenter(private val repository: UserRepository, private val userlistView: UserlistContract.View)
@@ -45,5 +45,4 @@ class UserlistPresenter(private val repository: UserRepository, private val user
     override fun openGitHubRepoList() {
         userlistView.openGitHubRepoList()
     }
-
 }

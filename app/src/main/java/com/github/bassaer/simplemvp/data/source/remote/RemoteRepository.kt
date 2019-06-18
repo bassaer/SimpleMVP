@@ -1,33 +1,27 @@
 package com.github.bassaer.simplemvp.data.source.remote
 
-import com.squareup.moshi.Moshi
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
+class RemoteRepository private constructor(private val remoteRepoDataSource: RemoteRepoDataSource): RemoteDataSource {
 
-class RemoteRepository private constructor() {
+    override fun loadRepoList(callback: RemoteDataSource.LoadRepoListCallback) {
+        remoteRepoDataSource.loadRepoList(object : RemoteDataSource.LoadRepoListCallback {
+            override fun onRepoListLoaded(list: List<RepoInfo>) {
+                callback.onRepoListLoaded(list)
+            }
 
-    fun getRepoList(): GitHubService {
-        val moshi = Moshi.Builder().build()
-        val okClient = OkHttpClient()
-        val retrofit = Retrofit.Builder()
-            .client(okClient)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(API_URL)
-            .build()
-        return retrofit.create(GitHubService::class.java)
+            override fun onDataNotAvailable() {
+                callback.onDataNotAvailable()
+            }
+        })
     }
+
 
     companion object {
         const val TAG = "GitHubFragment"
-        const val API_URL = "https://api.github.com/"
         private var INSTANCE: RemoteRepository? = null
 
-        fun getInstance() : RemoteRepository =
+        fun getInstance(remoteRepoDataSource: RemoteRepoDataSource) : RemoteRepository =
             INSTANCE
-                ?: RemoteRepository().also { INSTANCE = it }
+                ?: RemoteRepository(remoteRepoDataSource).also { INSTANCE = it }
     }
 
 }

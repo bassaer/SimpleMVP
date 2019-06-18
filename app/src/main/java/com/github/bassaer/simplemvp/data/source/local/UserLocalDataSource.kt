@@ -1,14 +1,14 @@
 package com.github.bassaer.simplemvp.data.source.local
 
 import com.github.bassaer.simplemvp.data.User
-import com.github.bassaer.simplemvp.data.source.UserDataSource
-import com.github.bassaer.simplemvp.data.source.UserDataSource.GerUserCallback
-import com.github.bassaer.simplemvp.data.source.UserDataSource.LoadUserCallback
+import com.github.bassaer.simplemvp.data.source.local.UserDataSource.GerUserCallback
+import com.github.bassaer.simplemvp.data.source.local.UserDataSource.LoadUserCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class UserLocalDataSource private constructor(private val userDao: UserDao): UserDataSource {
+class UserLocalDataSource private constructor(private val userDao: UserDao):
+    UserDataSource {
 
     override fun getUsers(callback: LoadUserCallback) {
         GlobalScope.launch(Dispatchers.Main) {
