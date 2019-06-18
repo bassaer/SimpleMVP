@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +13,7 @@ import com.github.bassaer.simplemvp.R
 import com.github.bassaer.simplemvp.counter.CounterActivity
 import com.github.bassaer.simplemvp.counter.CounterFragment
 import com.github.bassaer.simplemvp.data.User
+import com.github.bassaer.simplemvp.github.GitHubActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class UserlistFragment: Fragment(), UserlistContract.View, NewUserDialogFragment.NoticeDialogListener{
@@ -99,7 +99,8 @@ class UserlistFragment: Fragment(), UserlistContract.View, NewUserDialogFragment
     }
 
     override fun openGitHubRepoList() {
-        Toast.makeText(requireContext(), "open GitHub", Toast.LENGTH_SHORT).show()
+        val intent = Intent(context, GitHubActivity::class.java)
+        startActivity(intent)
     }
 
     private class UserlistAdapter(users: List<User>, private val listener: UserItemListener) :
